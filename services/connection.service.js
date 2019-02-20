@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const config = require('../config.json');
 
 mongoose.Promise = global.Promise;
 let isConnected;
@@ -10,7 +11,7 @@ const dbConnection = () => {
   }
 
   console.log('=> using new database connection');
-  return mongoose.connect(process.env.DB, { useNewUrlParser: true, useCreateIndex: true, reconnectTries: Number.MAX_VALUE, reconnectInterval: 1000, autoReconnect: true })
+  return mongoose.connect(process.env.DB || config.DB, { useNewUrlParser: true, useCreateIndex: true, reconnectTries: Number.MAX_VALUE, reconnectInterval: 1000, autoReconnect: true })
     .then(db => {
       isConnected = db.connections[0].readyState;
     });

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "offline": "npm install serverless-offline",
+    "test": "mocha --timeout 10000 || true",
+    "offline": "npm install serverless-offline mocha chai",
     "deploy": "rm -rf node_modules/ && npm install"
   },
   "author": "Ivan Laba",

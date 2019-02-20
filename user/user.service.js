@@ -6,6 +6,7 @@ const { hashPassword, checkPassword } = require('../services/bcrypt.service');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const { sendVerificationEmail } = require('../services/email.service');
+const config = require('../config.json');
 
 // confirm user with code
 const confirm = async (token, code) => {
@@ -103,7 +104,7 @@ const login = async (body) => {
           lastname: dbUser.surname,
           active: dbUser.active
         },
-        process.env.JWT_SECRET)
+        process.env.JWT_SECRET || config.JWT_SECRET)
       return user_jwt;
     }
   }
