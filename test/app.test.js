@@ -1,5 +1,6 @@
 const assert = require('chai').assert;
 const { users } = require('../user/userLambda');
+const config = require('../config.json');
 
 // * create events
 const userEvent = {
@@ -10,7 +11,7 @@ const userEvent = {
 const userLoginEvent = {
   httpMethod: 'POST',
   path: '/users/login',
-  body: '{"email": "labud9243@gmail.com", "password": "Laba2019"}'
+  body: `{"email": "${config.email_login}", "password": "${config.password_login}"}`
 }
 
 describe("User Lambda", () => {
