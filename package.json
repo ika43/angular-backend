@@ -1,0 +1,18 @@
+{
+  "name": "angular-backend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "offline": "npm install serverless-offline",
+    "deploy": "rm -rf node_modules/ && npm install"
+  },
+  "author": "Ivan Laba",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.3",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.6",
+    "nodemailer": "^5.1.1",
+    "validator": "^10.11.0"
+  }
+}
