@@ -27,5 +27,3 @@ var userSchema = new Schema({
 });
 
 module.exports = mongoose.model('User', userSchema);
-
-//serverless config credentials --provider aws --key AKIAIQYLQS772XZ3MIQQ --secret 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
