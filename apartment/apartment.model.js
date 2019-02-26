@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const apartmentSchema = new Schema({
   address: {
-    _id: false,
     country: {
       type: String,
       match: [/^[a-zA-Z ]+$/, 'Please fill a valid country!']

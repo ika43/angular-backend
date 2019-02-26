@@ -10,10 +10,10 @@ const visitSchema = new Schema({
     type: Date,
     required: [true, 'Date to for visit is required'],
   },
-  visitorsNumber: {
-    type: Number,
-    required: [true, 'Visitors number is required!']
-  },
+  // visitorsNumber: {
+  //   type: Number,
+  //   required: [true, 'Visitors number is required!']
+  // },
   apartment: {
     type: Schema.Types.ObjectId,
     ref: 'Apartment',
@@ -23,7 +23,15 @@ const visitSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'Visitor is required!']
-  }]
+  }],
+  created: {
+    type: Date,
+    default: Date.now
+  },
+  updated: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('Visit', visitSchema);

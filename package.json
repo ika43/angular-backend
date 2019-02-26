@@ -11,10 +11,14 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.3",
+    "chai": "^4.2.0",
     "chalk": "^2.4.2",
+    "faker": "^4.1.0",
     "jsonwebtoken": "^8.4.0",
+    "mocha": "^6.0.2",
     "mongoose": "^5.4.6",
     "nodemailer": "^5.1.1",
+    "serverless-offline": "^4.7.0",
     "validator": "^10.11.0"
   }
 }
