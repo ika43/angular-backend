@@ -5,10 +5,12 @@ const visitSchema = new Schema({
   from: {
     type: Date,
     required: [true, 'Date from for visit is required'],
+    index: true
   },
   to: {
     type: Date,
     required: [true, 'Date to for visit is required'],
+    index: true
   },
   // visitorsNumber: {
   //   type: Number,

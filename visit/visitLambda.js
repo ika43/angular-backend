@@ -13,13 +13,19 @@ exports.visit = async (event, context) => {
   try {
     user = decode(event.headers.Authorization);
     dbConnection();
+    let from, to;
 
     switch (event.httpMethod.toUpperCase()) {
       case 'GET':
-        return response('GET');
+        from = new Date('2019-03-05');
+        to = new Date('2019-03-11');
+        const visits = await Visit.find(
+          { from: { $gte: new Date('2019-03-03') } }
+        ).countDocuments();
+        return response({ visits });
       case 'POST':
-        const from = new Date();
-        const to = new Date('2019-03-03');
+        from = new Date('2019-03-05');
+        to = new Date('2019-03-11');
         const { apartment } = JSON.parse(event.body);
         const visit = await new Visit({
           from,
