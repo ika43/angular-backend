@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('../config.json');
+const { colors } = require('../handlers/console.colors');
 
 mongoose.Promise = global.Promise;
 let isConnected;

@@ -4,13 +4,14 @@
   "description": "",
   "scripts": {
     "test": "mocha --timeout 10000 || true",
-    "offline": "npm install serverless-offline mocha chai",
+    "offline": "npm install serverless-offline mocha chai faker",
     "deploy": "rm -rf node_modules/ && npm install"
   },
   "author": "Ivan Laba",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.3",
+    "chalk": "^2.4.2",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.6",
     "nodemailer": "^5.1.1",

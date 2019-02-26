@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var userSchema = new Schema({
+const userSchema = new Schema({
+  _id: Schema.Types.ObjectId,
   name: String,
   surname: String,
   country: {
@@ -17,6 +18,12 @@ var userSchema = new Schema({
   email: {
     type: String,
     index: true
+  },
+  creditCard: {
+    _id: false,
+    number: Number,
+    expired: Number,
+    securityCode: Number
   },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
