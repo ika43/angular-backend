@@ -3,8 +3,8 @@
 const { dbConnection } = require('../services/connection.service');
 const { response } = require('../handlers/response.handler');
 const { decode } = require('../services/jwt.service');
+const { checkIsBooked } = require('./visit.service');
 const Visit = require('./visit.model');
-const faker = require('faker');
 
 exports.visit = async (event, context) => {
 
@@ -13,32 +13,51 @@ exports.visit = async (event, context) => {
   try {
     user = decode(event.headers.Authorization);
     dbConnection();
-    let from, to;
 
     switch (event.httpMethod.toUpperCase()) {
       case 'GET':
-        from = new Date('2019-03-05');
-        to = new Date('2019-03-11');
-        const visits = await Visit.find(
-          { from: { $gte: new Date('2019-03-03') } }
-        ).countDocuments();
-        return response({ visits });
+        try {
+          const visits = await Visit.find();
+          return response({ visits });
+        } catch (err) {
+          return response({ error: err.message }, 500);
+        }
+
       case 'POST':
-        from = new Date('2019-03-05');
-        to = new Date('2019-03-11');
-        const { apartment } = JSON.parse(event.body);
-        const visit = await new Visit({
-          from,
-          to,
-          apartment,
-          visitors: user._id
-        }).save()
-        return response({ visit })
+        // get data from body
+        const { apartment, from, to } = JSON.parse(event.body);
+
+        try {
+          if (!await checkIsBooked(from, to)) { // check is already booked
+
+            // ! CREATE NEW VISIT
+            const visit = await new Visit({
+              from,
+              to,
+              apartment,
+              visitor: user._id
+            }).save()
+            return response({ visit })
+          } else {
+            return response({ 'error': 'apartment is reserved for this date!' }, 400)
+          }
+        } catch (err) {
+          return response({ error: err.message }, 400);
+        }
+
+      case 'DELETE':
+
+        try {
+          const _id = event.pathParameters.id;
+          const res = await Visit.remove({ _id });
+          return response({ msg: res.n })
+        } catch (err) {
+          return response({ error: err.message }, 400);
+        }
+
       default:
         return response({ 'error': 'Not authorized exception' }, 403);
     }
-
-    //return response({ user })
   } catch (err) {
     return response({ error: err }, 400)
   }

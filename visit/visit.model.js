@@ -12,20 +12,17 @@ const visitSchema = new Schema({
     required: [true, 'Date to for visit is required'],
     index: true
   },
-  // visitorsNumber: {
-  //   type: Number,
-  //   required: [true, 'Visitors number is required!']
-  // },
   apartment: {
     type: Schema.Types.ObjectId,
     ref: 'Apartment',
-    required: [true, 'Apartment is required!']
+    required: [true, 'Apartment is required!'],
+    index: true
   },
-  visitors: [{
+  visitor: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'Visitor is required!']
-  }],
+  },
   created: {
     type: Date,
     default: Date.now

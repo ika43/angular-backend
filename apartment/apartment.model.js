@@ -40,8 +40,9 @@ const apartmentSchema = new Schema({
     },
     rate: {
       type: Number,
-      required: [true, 'Rate is required!'],
-      match: [/^(?:[1-9]|0[1-9]|10)$/, 'Rate with number from 1 to 10']
+      required: [true, 'Rate is required'],
+      min: 1,
+      max: 10
     },
     user: {
       type: Schema.Types.ObjectId,
