@@ -3,7 +3,7 @@
 const { dbConnection } = require('../services/connection.service');
 const { response } = require('../handlers/response.handler');
 const { decode } = require('../services/jwt.service');
-const { userCanLeaveReview, leaveReview } = require('./apartment.service');
+const { userCanLeaveReview, leaveReview, updateApartment } = require('./apartment.service');
 const Apartment = require('./apartment.model');
 const Visit = require('../visit/visit.model');
 const User = require('../user/user.model');
@@ -37,7 +37,6 @@ exports.apartment = async (event, context) => {
         case '/apartment/review/{id}':
           try {
 
-            console.log("USAO U SINGLE REVIEW")
             // ! GET SINGLE REVIEW
             const review = await Apartment.findOne({ 'review._id': event.pathParameters.id }, { 'review.$': 1 });
             return response({ review })
@@ -70,8 +69,10 @@ exports.apartment = async (event, context) => {
       }
 
     case 'PUT':
-      // ! CREATE A REVIEW 
+
+
       switch (event.resource) {
+        // ! CREATE A REVIEW 
         case '/apartment/review/{id}':
 
           // * get data from request
@@ -91,6 +92,21 @@ exports.apartment = async (event, context) => {
             }
           } catch (err) {
             return response({ error: err.message }, 400)
+          }
+
+        // ! UPDATE APARTMENT
+        case '/apartment/{id}':
+          try {
+
+            // *get data from request
+            const _id = event.pathParameters.id;
+            const { address, description, pricePerNight } = JSON.parse(event.body);
+
+            // * update apartment
+            const apartment = await updateApartment(_id, address, description, pricePerNight);
+            return response({ apartment });
+          } catch (err) {
+            return response({ error: err.message }, 500);
           }
 
         default:

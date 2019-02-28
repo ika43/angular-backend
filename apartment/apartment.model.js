@@ -17,12 +17,16 @@ const apartmentSchema = new Schema({
     },
     streetNumber: {
       type: Number,
-      match: [/^[0-9]{1,10}$/, 'Please fill a valid street number!']
+      require: [true, 'Street number is required'],
+      min: 1,
+      max: 100
     }
   },
-  personNumber: {
+  pricePerNight: {
     type: Number,
-    match: [/^[0-9]{1,10}$/, 'Please fill a valid street number!']
+    required: [true, 'Price is required!'],
+    min: 1,
+    max: 1000
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -31,7 +35,7 @@ const apartmentSchema = new Schema({
   },
   description: {
     type: String,
-    match: [/^[a-zA-Z .:) \d_-]+$/, 'Please fill a valid street name!']
+    match: [/^[a-zA-Z .:)! \d_-]+$/, 'Please fill a valid description!']
   },
   review: [{
     text: {

@@ -88,12 +88,6 @@ module.exports.users = async (event, context) => {
         default:
           break;
       }
-    case 'PUT':
-      //users.getAll();
-      break;
-    case 'DELETE':
-      //users.getAll();
-      break;
     default:
       break;
   }

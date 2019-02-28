@@ -11,20 +11,18 @@ exports.userCanLeaveReview = async (visitor, apartment) => {
   ).countDocuments() > 0;
 }
 
+exports.updateApartment = async (_id, address, description, pricePerNight) => {
+  return await Apartment.findOneAndUpdate(
+    { _id },
+    { $set: { address, description, pricePerNight } },
+    { new: true, runValidators: true }
+  )
+}
+
 exports.leaveReview = async (_id, text, rate, user) => {
   return await Apartment.findOneAndUpdate(
     { _id },
-    {
-      $push: {
-        review: {
-          text,
-          rate,
-          user
-        }
-      }
-    },
-    {
-      runValidators: true
-    }
+    { $push: { review: { text, rate, user } } },
+    { new: true, runValidators: true }
   )
 }

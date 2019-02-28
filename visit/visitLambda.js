@@ -16,14 +16,41 @@ exports.visit = async (event, context) => {
 
     switch (event.httpMethod.toUpperCase()) {
       case 'GET':
-        try {
+        switch (event.resource) {
+          case '/visit':
+            try {
 
-          // ! RETURN ALL VISIT
-          const visits = await Visit.find();
-          return response({ visits });
-        } catch (err) {
-          return response({ error: err.message }, 500);
+              // ! RETURN ALL VISIT
+              const visits = await Visit.find();
+              return response({ visits });
+            } catch (err) {
+              return response({ error: err.message }, 500);
+            }
+          case '/visit/{id}':
+            try {
+
+              // ! RETURN SINGLE VISIT
+              const _id = event.pathParameters.id;
+              const visits = await Visit.findOne({ _id });
+              return response({ visits });
+            } catch (err) {
+              return response({ error: err.message }, 500);
+            }
+          case '/visit/apartment/{id}':
+            try {
+
+              // ! RETURN ALL VISIT FOR SINGLE APARTMENT
+              const _id = event.pathParameters.id;
+              const visits = await Visit.find({ apartment: _id });
+              return response({ visits });
+            } catch (err) {
+              return response({ error: err.message }, 500);
+            }
+
+          default:
+            break;
         }
+
 
       case 'POST':
         //  * get data from request

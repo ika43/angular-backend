@@ -7,11 +7,11 @@ let isConnected;
 
 const dbConnection = () => {
   if (isConnected) {
-    console.log('=> using existing database connection');
+    console.log(colors.fg.Magenta, '=> using existing database connection');
     return Promise.resolve();
   }
 
-  console.log('=> using new database connection');
+  console.log(colors.fg.Magenta, '=> using new database connection');
   return mongoose.connect(process.env.DB || config.DB, { useNewUrlParser: true, useCreateIndex: true, reconnectTries: Number.MAX_VALUE, reconnectInterval: 1000, autoReconnect: true })
     .then(db => {
       isConnected = db.connections[0].readyState;
