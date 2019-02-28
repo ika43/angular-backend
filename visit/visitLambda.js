@@ -17,6 +17,8 @@ exports.visit = async (event, context) => {
     switch (event.httpMethod.toUpperCase()) {
       case 'GET':
         try {
+
+          // ! RETURN ALL VISIT
           const visits = await Visit.find();
           return response({ visits });
         } catch (err) {
@@ -24,11 +26,10 @@ exports.visit = async (event, context) => {
         }
 
       case 'POST':
-        // get data from body
+        //  * get data from request
         const { apartment, from, to } = JSON.parse(event.body);
-
         try {
-          if (!await checkIsBooked(from, to)) { // check is already booked
+          if (!await checkIsBooked(from, to)) { // check is already booked for this date
 
             // ! CREATE NEW VISIT
             const visit = await new Visit({
@@ -39,7 +40,7 @@ exports.visit = async (event, context) => {
             }).save()
             return response({ visit })
           } else {
-            return response({ 'error': 'apartment is reserved for this date!' }, 400)
+            return response({ 'error': 'Apartment is reserved for this date!' }, 400)
           }
         } catch (err) {
           return response({ error: err.message }, 400);
@@ -48,6 +49,8 @@ exports.visit = async (event, context) => {
       case 'DELETE':
 
         try {
+
+          // ! DELETE VISIT
           const _id = event.pathParameters.id;
           const res = await Visit.remove({ _id });
           return response({ msg: res.n })
