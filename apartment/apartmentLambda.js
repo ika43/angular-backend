@@ -22,21 +22,38 @@ exports.apartment = async (event, context) => {
   // * Create lambda router
   switch (event.httpMethod.toUpperCase()) {
     case 'GET':
+      console.log(event.resource);
+      switch (event.resource) {
 
-      try {
-        if (event.pathParameters) {
+        case '/apartment/{id}':
+          try {
 
-          // ! GET SINGLE APARTMENT
-          const apartment = await Apartment.findOne({ _id: event.pathParameters.id }).populate('owner');
-          return response({ apartment });
-        } else {
+            // ! GET SINGLE APARTMENT
+            const apartment = await Apartment.findOne({ _id: event.pathParameters.id }).populate('owner');
+            return response({ apartment });
+          } catch (err) {
+            return response({ 'error': err.message }, 500);
+          }
+        case '/apartment/review/{id}':
+          try {
 
-          // ! GET ALL APARTMENTS
-          const apartments = await Apartment.find().populate('owner');
-          return response({ apartments });
-        }
-      } catch (err) {
-        return response({ 'error': err.message }, 500);
+            console.log("USAO U SINGLE REVIEW")
+            // ! GET SINGLE REVIEW
+            const review = await Apartment.findOne({ 'review._id': event.pathParameters.id }, { 'review.$': 1 });
+            return response({ review })
+          } catch (err) {
+            return response({ 'error': err.message }, 500);
+          }
+        case '/apartment':
+          try {
+
+            // ! GET ALL APARTMENTS
+            const apartments = await Apartment.find().populate('owner');
+            return response({ apartments });
+
+          } catch (err) {
+            return response({ 'error': err.message }, 500);
+          }
       }
     case 'POST':
       try {
@@ -99,7 +116,7 @@ exports.apartment = async (event, context) => {
             return response({ err }, 500);
           }
 
-          // ! DELETE APARTMENT
+        // ! DELETE APARTMENT
         case '/apartment/{id}':
           try {
             await Apartment.remove({ _id: event.pathParameters['id'] });
